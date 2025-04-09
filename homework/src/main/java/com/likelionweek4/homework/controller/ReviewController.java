@@ -23,9 +23,11 @@ public class ReviewController {
 
     @GetMapping("/{restaurantId}")
     public ResponseEntity<ReviewResponseDTO.SearchReviewsResult> searchReviews(
-            @PathVariable Long restaurantId ) {
+            @PathVariable Long restaurantId,
+            @RequestParam(defaultValue = "latest") String sortBy) {
+        ReviewRequestDTO.SearchReviewsInfo requestDTO = new ReviewRequestDTO.SearchReviewsInfo(restaurantId, sortBy);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(new ReviewResponseDTO.SearchReviewsResult(reviewService.searchReviewByRestaurantId(new ReviewRequestDTO.SearchReviewsInfo(restaurantId))));
+                .body(new ReviewResponseDTO.SearchReviewsResult(reviewService.searchReviewByRestaurantId(requestDTO)));
     }
 
     @PutMapping("/{reviewId}")

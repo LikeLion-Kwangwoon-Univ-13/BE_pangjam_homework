@@ -20,10 +20,11 @@ public class ReviewRequestDTO {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class SearchReviewsInfo {
-        @Setter
         private Long restaurantId;
+        private String sortBy;
     }
 
     @Getter

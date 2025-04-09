@@ -1,5 +1,6 @@
 package com.likelionweek4.homework.service;
 
+import com.likelionweek4.homework.dto.MessageResponseDTO;
 import com.likelionweek4.homework.dto.review.ReviewRequestDTO;
 import com.likelionweek4.homework.entity.Restaurant;
 import com.likelionweek4.homework.entity.Review;
@@ -7,6 +8,7 @@ import com.likelionweek4.homework.repository.RestaurantRepository;
 import com.likelionweek4.homework.repository.ReviewRepository;
 import com.likelionweek4.homework.validator.review.CreateReviewInfoValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +36,21 @@ public class ReviewService {
     }
 
     public List<Review> searchReviewByRestaurantId(ReviewRequestDTO.SearchReviewsInfo requestDTO) {
-        return reviewRepository.findByRestaurant_RestaurantId(requestDTO.getRestaurantId());
+        Long restaurantId = requestDTO.getRestaurantId();
+        String sortBy = requestDTO.getSortBy();
+        if(sortBy.equals("latest")) {
+            return reviewRepository.findByRestaurant_RestaurantId(restaurantId, Sort.by(Sort.Direction.DESC, "created_at"));
+        }
+        else if(sortBy.equals("oldest")) {
+            return reviewRepository.findByRestaurant_RestaurantId(restaurantId, Sort.by(Sort.Direction.ASC, "created_at"));
+        }
+        else if(sortBy.equals("lowRating")) {
+            return reviewRepository.findByRestaurant_RestaurantId(restaurantId, Sort.by(Sort.Direction.ASC, "rating"));
+        }
+        else if(sortBy.equals("highRating")) {
+            return reviewRepository.findByRestaurant_RestaurantId(restaurantId, Sort.by(Sort.Direction.DESC, "rating"));
+        }
+        throw new IllegalArgumentException("리뷰 조회 정렬 기준이 없습니다. (latest, oldest, lowRating, highRating)");
     }
 
     public Review update(ReviewRequestDTO.UpdateReviewInfo requestDTO) {
