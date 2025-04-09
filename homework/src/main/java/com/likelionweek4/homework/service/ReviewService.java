@@ -38,6 +38,10 @@ public class ReviewService {
     public List<Review> searchReviewByRestaurantId(ReviewRequestDTO.SearchReviewsInfo requestDTO) {
         Long restaurantId = requestDTO.getRestaurantId();
         String sortBy = requestDTO.getSortBy();
+        return getReviewList(sortBy, restaurantId);
+    }
+
+    private List<Review> getReviewList(String sortBy, Long restaurantId) {
         if(sortBy.equals("latest")) {
             return reviewRepository.findByRestaurant_RestaurantId(restaurantId, Sort.by(Sort.Direction.DESC, "created_at"));
         }
