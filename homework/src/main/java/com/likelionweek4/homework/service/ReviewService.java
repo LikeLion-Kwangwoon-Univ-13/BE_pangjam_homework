@@ -55,8 +55,15 @@ public class ReviewService {
         Review review = getReview(requestDTO.getReviewId());
         reviewRepository.delete(review);
         Restaurant restaurant = review.getRestaurant();
-        restaurant.updateRating(reviewRepository.findAverageRatingByRestaurantId(restaurant.getRestaurantId()));
+        Double averageRating = getAverageRatingByRestaurantId(restaurant);
+        restaurant.updateRating(averageRating);
         restaurantRepository.save(restaurant);
+    }
+
+    private Double getAverageRatingByRestaurantId(Restaurant restaurant) {
+        Double averageRating = reviewRepository.findAverageRatingByRestaurantId(restaurant.getRestaurantId());
+        if(averageRating == null) return 0.0;
+        return averageRating;
     }
 
     private Review getReview(Long reviewId) {

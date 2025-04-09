@@ -52,6 +52,10 @@ public class Restaurant {
     }
 
     public void updateRating(double averageRating) {
-        this.rating = averageRating;
+        if(averageRating > 0.0) {
+            this.rating = averageRating;
+            return;
+        }
+        this.rating = 0.0;
     }
 }
