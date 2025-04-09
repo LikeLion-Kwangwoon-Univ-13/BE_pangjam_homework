@@ -25,7 +25,7 @@ public class RestaurantRequestDTO {
         private String name;
         private String categoryGroup;
         private String category;
-        private Integer distance;
+        private Boolean distance; // True: 오름차순, False: 내림차순
     }
 
 

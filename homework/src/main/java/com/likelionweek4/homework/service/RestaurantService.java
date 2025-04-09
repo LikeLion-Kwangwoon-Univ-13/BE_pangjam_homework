@@ -45,11 +45,9 @@ public class RestaurantService {
             return restaurantRepository.findByCategory(requestDTO.getCategory());
         }
         if (requestDTO.getDistance() != null) {
-            if (requestDTO.getDistance() == 0)
+            if (requestDTO.getDistance())
                 return restaurantRepository.findAllByOrderByDistanceAsc();
-            else if(requestDTO.getDistance()== 1)
-                return restaurantRepository.findAllByOrderByDistanceDesc();
-            throw new IllegalArgumentException("distance 파라미터값이 잘못되었습니다. 0: 오름차순, 1: 내림차순");
+            return restaurantRepository.findAllByOrderByDistanceDesc();
         }
         throw new IllegalArgumentException("검색 조건은 필수입니다.");
     }
