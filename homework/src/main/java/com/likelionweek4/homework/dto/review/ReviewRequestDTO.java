@@ -13,17 +13,17 @@ public class ReviewRequestDTO {
     @Getter
     @AllArgsConstructor
     public static class CreateReviewInfo {
-        private Long restaurantId;
+        private Long placeId;
         private int rating;
         private String comment;
-        private LocalDateTime created_at;
+        private LocalDateTime createdAt;
     }
 
     @Getter
     @Setter
     @AllArgsConstructor
     public static class SearchReviewsInfo {
-        private Long restaurantId;
+        private Long placeId;
         private String sortBy;
     }
 
@@ -34,7 +34,7 @@ public class ReviewRequestDTO {
         private Long reviewId;
         private int rating;
         private String comment;
-        private LocalDateTime created_at;
+        private LocalDateTime createdAt;
     }
 
     @Getter

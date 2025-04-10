@@ -1,19 +1,18 @@
-package com.likelionweek4.homework.dto.restaurant;
+package com.likelionweek4.homework.dto.place;
 
 import com.likelionweek4.homework.dto.review.ReviewResponseDTO;
-import com.likelionweek4.homework.entity.Restaurant;
-import lombok.AllArgsConstructor;
+import com.likelionweek4.homework.entity.Place;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantResponseDTO {
+public class PlaceResponseDTO {
 
     @Getter
     @NoArgsConstructor
-    public static class RestaurantInfo {
+    public static class PlaceInfo {
         private Long id;
         private String name;
         private String address;
@@ -25,18 +24,18 @@ public class RestaurantResponseDTO {
         private String category;
         private double rating;
         List<ReviewResponseDTO.ReviewInfo> reviews = new ArrayList<>();
-        public RestaurantInfo(Restaurant restaurant) {
-            this.id = restaurant.getRestaurantId();
-            this.name = restaurant.getName();
-            this.address = restaurant.getAddress();
-            this.phone = restaurant.getPhone();
-            this.distance = restaurant.getDistance();
-            this.latitude = restaurant.getLatitude();
-            this.longitude = restaurant.getLongitude();
-            this.categoryGroup = restaurant.getCategoryGroup();
-            this.category = restaurant.getCategory();
-            this.rating = restaurant.getRating();
-            restaurant.getReviews().forEach(review -> {
+        public PlaceInfo(Place place) {
+            this.id = place.getPlaceId();
+            this.name = place.getName();
+            this.address = place.getAddress();
+            this.phone = place.getPhone();
+            this.distance = place.getDistance();
+            this.latitude = place.getLatitude();
+            this.longitude = place.getLongitude();
+            this.categoryGroup = place.getCategoryGroup();
+            this.category = place.getCategory();
+            this.rating = place.getRating();
+            place.getReviews().forEach(review -> {
                 this.reviews.add(new ReviewResponseDTO.ReviewInfo(review));
             });
         }
@@ -44,11 +43,11 @@ public class RestaurantResponseDTO {
 
     @Getter
     @NoArgsConstructor
-    public static class SearchRestaurantResult {
-        List<RestaurantInfo> restaurantInfos = new ArrayList<>();
-        public SearchRestaurantResult(List<Restaurant> restaurants) {
-            restaurants.forEach(restaurant -> {
-                restaurantInfos.add(new RestaurantInfo(restaurant));
+    public static class SearchPlaceResult {
+        List<PlaceInfo> placeInfos = new ArrayList<>();
+        public SearchPlaceResult(List<Place> places) {
+            places.forEach(place -> {
+                placeInfos.add(new PlaceInfo(place));
             });
         }
     }

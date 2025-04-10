@@ -1,14 +1,14 @@
-package com.likelionweek4.homework.dto.restaurant;
+package com.likelionweek4.homework.dto.place;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-public class RestaurantRequestDTO {
+public class PlaceRequestDTO {
 
     @Getter
     @AllArgsConstructor
-    public static class CreateRestaurantInfo {
+    public static class CreatePlaceInfo {
         String name;
         String address;
         String phone;
@@ -21,7 +21,7 @@ public class RestaurantRequestDTO {
 
     @Getter
     @Setter
-    public static class SearchRestaurantConditionInfo {
+    public static class SearchPlaceConditionInfo {
         private String name;
         private String categoryGroup;
         private String category;
@@ -31,7 +31,7 @@ public class RestaurantRequestDTO {
 
     @Getter
     @AllArgsConstructor
-    public static class UpdateRestaurantInfo {
+    public static class UpdatePlaceInfo {
         @Setter
         Long id;
         String name;
@@ -46,7 +46,7 @@ public class RestaurantRequestDTO {
 
     @Getter
     @AllArgsConstructor
-    public static class RestaurantIdDTO {
+    public static class PlaceIdDTO {
         Long id;
     }
 }

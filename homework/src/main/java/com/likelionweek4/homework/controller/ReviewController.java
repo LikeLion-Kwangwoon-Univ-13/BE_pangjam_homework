@@ -21,13 +21,13 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ReviewResponseDTO.ReviewInfo(reviewService.create(requestDTO)));
     }
 
-    @GetMapping("/{restaurantId}")
+    @GetMapping("/{placeId}")
     public ResponseEntity<ReviewResponseDTO.SearchReviewsResult> searchReviews(
-            @PathVariable Long restaurantId,
+            @PathVariable Long placeId,
             @RequestParam(defaultValue = "latest") String sortBy) {
-        ReviewRequestDTO.SearchReviewsInfo requestDTO = new ReviewRequestDTO.SearchReviewsInfo(restaurantId, sortBy);
+        ReviewRequestDTO.SearchReviewsInfo requestDTO = new ReviewRequestDTO.SearchReviewsInfo(placeId, sortBy);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(new ReviewResponseDTO.SearchReviewsResult(reviewService.searchReviewByRestaurantId(requestDTO)));
+                .body(new ReviewResponseDTO.SearchReviewsResult(reviewService.searchReviewByPlaceId(requestDTO)));
     }
 
     @PutMapping("/{reviewId}")

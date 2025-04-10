@@ -13,25 +13,25 @@ public class Review {
     private long reviewId;
 
     @ManyToOne
-    @JoinColumn(name = "restaurantId")
-    private Restaurant restaurant;
+    @JoinColumn(name = "placeId")
+    private Place place;
 
     private int rating;
     private String comment;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     protected Review() {}
 
-    public Review(Restaurant restaurant, int rating, String comment, LocalDateTime created_at) {
-        this.restaurant = restaurant;
+    public Review(Place place, int rating, String comment, LocalDateTime createdAt) {
+        this.place = place;
         this.rating = rating;
         this.comment = comment;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
-    public void updateInfo(int rating, String comment, LocalDateTime created_at) {
+    public void updateInfo(int rating, String comment, LocalDateTime createdAt) {
         this.rating = rating;
         this.comment = comment;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 }

@@ -1,7 +1,6 @@
-package com.likelionweek4.homework.exception;
+package com.likelionweek4.homework.utils.exception;
 
 import com.likelionweek4.homework.dto.MessageResponseDTO;
-import com.likelionweek4.homework.dto.restaurant.RestaurantResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

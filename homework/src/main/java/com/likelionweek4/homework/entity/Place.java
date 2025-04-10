@@ -2,7 +2,6 @@ package com.likelionweek4.homework.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,10 +9,10 @@ import java.util.List;
 
 @Getter
 @Entity
-public class Restaurant {
+public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long restaurantId;
+    private Long placeId;
     private String name;
     private String address;
     private String phone;
@@ -24,12 +23,12 @@ public class Restaurant {
     private String category;
     private double rating = 0.0;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    protected Restaurant() {}
+    protected Place() {}
 
-    public Restaurant(String name, String address, String phone, int distance, double latitude, double longitude, String categoryGroup, String category) {
+    public Place(String name, String address, String phone, int distance, double latitude, double longitude, String categoryGroup, String category) {
         this.name = name;
         this.address = address;
         this.phone = phone;

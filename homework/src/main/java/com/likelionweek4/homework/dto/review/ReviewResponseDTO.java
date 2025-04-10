@@ -18,12 +18,12 @@ public class ReviewResponseDTO {
         private Long id;
         private int rating;
         private String comment;
-        private LocalDateTime created_at;
+        private LocalDateTime createdAt;
         public ReviewInfo(Review review) {
             this.id = review.getReviewId();
             this.rating = review.getRating();
             this.comment = review.getComment();
-            this.created_at = review.getCreated_at();
+            this.createdAt = review.getCreatedAt();
         }
     }
 
