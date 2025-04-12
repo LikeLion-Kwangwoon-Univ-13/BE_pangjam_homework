@@ -1,6 +1,8 @@
 package com.likelionweek4.homework.service;
 
+import com.likelionweek4.homework.dto.MessageResponseDTO;
 import com.likelionweek4.homework.dto.review.ReviewRequestDTO;
+import com.likelionweek4.homework.dto.review.ReviewResponseDTO;
 import com.likelionweek4.homework.entity.Place;
 import com.likelionweek4.homework.entity.Review;
 import com.likelionweek4.homework.repository.place.PlaceRepository;
@@ -19,7 +21,7 @@ public class ReviewService {
     private final PlaceRepository placeRepository;
     private final ReviewRepository reviewRepository;
 
-    public Review create(ReviewRequestDTO.CreateReviewInfo requestDTO) {
+    public ReviewResponseDTO.ReviewInfo create(ReviewRequestDTO.CreateReviewInfo requestDTO) {
         CreateReviewInfoValidator.validate(requestDTO);
         Place place = getPlace(requestDTO.getPlaceId());
         Review review = new Review(
@@ -31,13 +33,13 @@ public class ReviewService {
         reviewRepository.save(review);
         place.updateRating(reviewRepository.findAverageRatingByPlaceId(place.getPlaceId()));
         placeRepository.save(place);
-        return review;
+        return new ReviewResponseDTO.ReviewInfo(review);
     }
 
-    public List<Review> searchReviewByPlaceId(ReviewRequestDTO.SearchReviewsInfo requestDTO) {
+    public ReviewResponseDTO.SearchReviewsResult searchReviewByPlaceId(ReviewRequestDTO.SearchReviewsInfo requestDTO) {
         Long placeId = requestDTO.getPlaceId();
         String sortBy = requestDTO.getSortBy();
-        return getReviewList(sortBy, placeId);
+        return new ReviewResponseDTO.SearchReviewsResult(getReviewList(sortBy, placeId));
     }
 
     private List<Review> getReviewList(String sortBy, Long placeId) {
@@ -56,7 +58,7 @@ public class ReviewService {
         throw new IllegalArgumentException("리뷰 조회 정렬 기준이 없습니다. (latest, oldest, lowRating, highRating)");
     }
 
-    public Review update(ReviewRequestDTO.UpdateReviewInfo requestDTO) {
+    public ReviewResponseDTO.ReviewInfo update(ReviewRequestDTO.UpdateReviewInfo requestDTO) {
         Review review = getReview(requestDTO.getReviewId());
         review.updateInfo(
                 requestDTO.getRating(),
@@ -67,16 +69,17 @@ public class ReviewService {
         Place place = review.getPlace();
         place.updateRating(reviewRepository.findAverageRatingByPlaceId(place.getPlaceId()));
         placeRepository.save(place);
-        return review;
+        return new ReviewResponseDTO.ReviewInfo(review);
     }
 
-    public void deleteReview(ReviewRequestDTO.DeleteReviewInfo requestDTO) {
+    public MessageResponseDTO.Message deleteReview(ReviewRequestDTO.DeleteReviewInfo requestDTO) {
         Review review = getReview(requestDTO.getReviewId());
         reviewRepository.delete(review);
         Place place = review.getPlace();
         Double averageRating = getAverageRatingByPlaceId(place);
         place.updateRating(averageRating);
         placeRepository.save(place);
+        return new MessageResponseDTO.Message("삭제가 완료되었습니다.");
     }
 
     private Double getAverageRatingByPlaceId(Place place) {

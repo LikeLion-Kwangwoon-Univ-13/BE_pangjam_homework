@@ -1,4 +1,4 @@
-package com.likelionweek4.homework.config;
+package com.likelionweek4.homework.repository.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

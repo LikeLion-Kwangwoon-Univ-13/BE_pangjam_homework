@@ -19,19 +19,19 @@ public class PlaceController {
     @PostMapping
     public ResponseEntity<PlaceResponseDTO.PlaceInfo> createPlace(
             @RequestBody PlaceRequestDTO.CreatePlaceInfo requestDTO) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new PlaceResponseDTO.PlaceInfo(PlaceService.create(requestDTO)));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(PlaceService.create(requestDTO));
     }
 
     @GetMapping()
     public ResponseEntity<PlaceResponseDTO.SearchPlaceResult> searchPlaceInfo(
             @ModelAttribute PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new PlaceResponseDTO.SearchPlaceResult(PlaceService.searchByCondition(requestDTO)));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(PlaceService.searchByCondition(requestDTO));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlaceResponseDTO.PlaceInfo> searchPlaceById(
             @PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new PlaceResponseDTO.PlaceInfo(PlaceService.searchById(new PlaceRequestDTO.PlaceIdDTO(id))));
+        return ResponseEntity.status(HttpStatus.OK).body(PlaceService.searchById(new PlaceRequestDTO.PlaceIdDTO(id)));
     }
 
     @PutMapping("/{id}")
@@ -39,13 +39,12 @@ public class PlaceController {
             @PathVariable Long id,
             @RequestBody PlaceRequestDTO.UpdatePlaceInfo requestDTO) {
         requestDTO.setId(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new PlaceResponseDTO.PlaceInfo(PlaceService.update(requestDTO)));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(PlaceService.update(requestDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponseDTO.Message> deletePlace(
             @PathVariable Long id) {
-        PlaceService.delete(new PlaceRequestDTO.PlaceIdDTO(id));
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MessageResponseDTO.Message("식당 정보가 삭제되었습니다."));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(PlaceService.delete(new PlaceRequestDTO.PlaceIdDTO(id)));
     }
 }

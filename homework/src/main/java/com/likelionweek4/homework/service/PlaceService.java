@@ -1,6 +1,8 @@
 package com.likelionweek4.homework.service;
 
+import com.likelionweek4.homework.dto.MessageResponseDTO;
 import com.likelionweek4.homework.dto.place.PlaceRequestDTO;
+import com.likelionweek4.homework.dto.place.PlaceResponseDTO;
 import com.likelionweek4.homework.entity.Place;
 import com.likelionweek4.homework.repository.place.PlaceRepository;
 import com.likelionweek4.homework.validator.place.CreatePlaceInfoValidator;
@@ -19,7 +21,7 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
 
-    public Place create(PlaceRequestDTO.CreatePlaceInfo requestDTO) {
+    public PlaceResponseDTO.PlaceInfo create(PlaceRequestDTO.CreatePlaceInfo requestDTO) {
         CreatePlaceInfoValidator.validate(requestDTO);
         Place place = new Place(
                 requestDTO.getName(),
@@ -32,19 +34,19 @@ public class PlaceService {
                 requestDTO.getCategory()
         );
         placeRepository.save(place);
-        return place;
+        return new PlaceResponseDTO.PlaceInfo(place);
     }
 
-    public List<Place> searchByCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
+    public PlaceResponseDTO.SearchPlaceResult searchByCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
         SearchPlaceConditionValidator.validate(requestDTO);
-        return placeRepository.findBySearchCondition(requestDTO);
+        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO));
     }
 
-    public Place searchById(PlaceRequestDTO.PlaceIdDTO requestDTO) {
-        return getPlace(requestDTO.getId());
+    public PlaceResponseDTO.PlaceInfo searchById(PlaceRequestDTO.PlaceIdDTO requestDTO) {
+        return new PlaceResponseDTO.PlaceInfo(getPlace(requestDTO.getId()));
     }
 
-    public Place update(PlaceRequestDTO.UpdatePlaceInfo requestDTO) {
+    public PlaceResponseDTO.PlaceInfo update(PlaceRequestDTO.UpdatePlaceInfo requestDTO) {
         UpdatePlaceInfoValidator.validate(requestDTO);
         Place place = getPlace(requestDTO.getId());
         place.updateInfo(
@@ -55,12 +57,13 @@ public class PlaceService {
                 requestDTO.getLongitude(),
                 requestDTO.getCategory()
         );
-        return placeRepository.save(place);
+        return new PlaceResponseDTO.PlaceInfo(placeRepository.save(place));
     }
 
-    public void delete(PlaceRequestDTO.PlaceIdDTO requestDTO) {
+    public MessageResponseDTO.Message delete(PlaceRequestDTO.PlaceIdDTO requestDTO) {
         Place place = getPlace(requestDTO.getId());
         placeRepository.delete(place);
+        return new MessageResponseDTO.Message("식당 정보가 삭제되었습니다.");
     }
 
     private Place getPlace(Long id) {
@@ -70,5 +73,4 @@ public class PlaceService {
         }
         return place;
     }
-
 }
