@@ -6,12 +6,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.likelionweek4.homework.entity.QPlace.place;
-
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
@@ -20,13 +21,20 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
     @Override
     public List<Place> findBySearchCondition(PlaceRequestDTO.SearchPlaceConditionInfo searchPlaceConditionInfo) {
-        return orderByDistance(
-                    queryFactory.selectFrom(place)
-                    .where(nameEq(searchPlaceConditionInfo.getName()),
-                            categoryEq(searchPlaceConditionInfo.getCategory()),
-                            categoryGroupEq(searchPlaceConditionInfo.getCategoryGroup())),
-                    searchPlaceConditionInfo.getDistance()
-                ).fetch();
+        log.error("Search place condition: {}", searchPlaceConditionInfo.getIsRatingASC());
+
+        JPAQuery<Place> jpaQuery = queryFactory.selectFrom(place)
+                .where(nameEq(searchPlaceConditionInfo.getName()),
+                        categoryEq(searchPlaceConditionInfo.getCategory()),
+                        categoryGroupEq(searchPlaceConditionInfo.getCategoryGroup()));
+
+        if(searchPlaceConditionInfo.getIsRatingASC() != null)
+            jpaQuery = orderByRating(jpaQuery, searchPlaceConditionInfo.getIsRatingASC());
+
+        if(searchPlaceConditionInfo.getIsDistanceASC() != null)
+            jpaQuery = orderByDistance(jpaQuery, searchPlaceConditionInfo.getIsDistanceASC());
+
+        return jpaQuery.fetch();
     }
 
     private BooleanExpression nameEq(String name) {
@@ -50,10 +58,17 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
         return null;
     }
 
-    private JPAQuery<Place> orderByDistance(JPAQuery<Place> query, Boolean distance) {
-        if(distance == null || distance) {
+    private JPAQuery<Place> orderByDistance(JPAQuery<Place> query, Boolean isDistanceASC) {
+        if(isDistanceASC == null || isDistanceASC) {
             return query.orderBy(place.distance.asc());
         }
         return query.orderBy(place.distance.desc());
+    }
+
+    private JPAQuery<Place> orderByRating(JPAQuery<Place> query, Boolean isRatingASC) {
+        if(isRatingASC == null || isRatingASC) {
+            return query.orderBy(place.rating.asc());
+        }
+        return query.orderBy(place.rating.desc());
     }
 }

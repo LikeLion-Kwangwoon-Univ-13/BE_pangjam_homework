@@ -25,7 +25,8 @@ public class PlaceRequestDTO {
         private String name;
         private String categoryGroup;
         private String category;
-        private Boolean distance; // True: 오름차순, False: 내림차순
+        private Boolean isDistanceASC; // True: 오름차순, False: 내림차순
+        private Boolean isRatingASC; // True: 오름차순, False: 내림차순
     }
 
 

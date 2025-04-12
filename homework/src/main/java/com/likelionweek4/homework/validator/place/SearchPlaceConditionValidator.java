@@ -8,7 +8,7 @@ public class SearchPlaceConditionValidator {
     }
 
     private static void validateSearchCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
-        if(requestDTO.getName() == null && requestDTO.getDistance() == null && requestDTO.getCategory() == null && requestDTO.getCategoryGroup() == null) {
+        if(requestDTO.getIsRatingASC() == null && requestDTO.getName() == null && requestDTO.getIsDistanceASC() == null && requestDTO.getCategory() == null && requestDTO.getCategoryGroup() == null) {
             throw new IllegalArgumentException("검색 조건이 존재하지 않습니다.");
         }
     }
