@@ -1,7 +1,7 @@
 package com.likelionweek4.homework.utils.exportexcel;
 
 import com.likelionweek4.homework.entity.Place;
-import com.likelionweek4.homework.repository.PlaceRepository;
+import com.likelionweek4.homework.repository.place.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.core.io.ClassPathResource;

@@ -1,4 +1,4 @@
-package com.likelionweek4.homework.repository;
+package com.likelionweek4.homework.repository.review;
 
 import com.likelionweek4.homework.entity.Review;
 import org.springframework.data.domain.Sort;

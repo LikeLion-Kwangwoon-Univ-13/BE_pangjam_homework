@@ -2,9 +2,10 @@ package com.likelionweek4.homework.service;
 
 import com.likelionweek4.homework.dto.place.PlaceRequestDTO;
 import com.likelionweek4.homework.entity.Place;
-import com.likelionweek4.homework.repository.PlaceRepository;
-import com.likelionweek4.homework.validator.Place.CreatePlaceInfoValidator;
-import com.likelionweek4.homework.validator.Place.UpdatePlaceInfoValidator;
+import com.likelionweek4.homework.repository.place.PlaceRepository;
+import com.likelionweek4.homework.validator.place.CreatePlaceInfoValidator;
+import com.likelionweek4.homework.validator.place.SearchPlaceConditionValidator;
+import com.likelionweek4.homework.validator.place.UpdatePlaceInfoValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,21 +36,8 @@ public class PlaceService {
     }
 
     public List<Place> searchByCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
-        if (requestDTO.getName() != null) {
-            return placeRepository.findByNameContainingIgnoreCase(requestDTO.getName());
-        }
-        if (requestDTO.getCategoryGroup() != null) {
-            return placeRepository.findByCategoryGroup(requestDTO.getCategoryGroup());
-        }
-        if (requestDTO.getCategory() != null) {
-            return placeRepository.findByCategory(requestDTO.getCategory());
-        }
-        if (requestDTO.getDistance() != null) {
-            if (requestDTO.getDistance())
-                return placeRepository.findAllByOrderByDistanceAsc();
-            return placeRepository.findAllByOrderByDistanceDesc();
-        }
-        throw new IllegalArgumentException("검색 조건은 필수입니다.");
+        SearchPlaceConditionValidator.validate(requestDTO);
+        return placeRepository.findBySearchCondition(requestDTO);
     }
 
     public Place searchById(PlaceRequestDTO.PlaceIdDTO requestDTO) {

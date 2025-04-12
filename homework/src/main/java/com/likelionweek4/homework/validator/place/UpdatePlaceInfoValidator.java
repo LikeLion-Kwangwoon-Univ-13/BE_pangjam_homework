@@ -1,4 +1,4 @@
-package com.likelionweek4.homework.validator.Place;
+package com.likelionweek4.homework.validator.place;
 
 import com.likelionweek4.homework.dto.place.PlaceRequestDTO;
 
