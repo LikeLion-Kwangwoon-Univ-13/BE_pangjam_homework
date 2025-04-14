@@ -24,7 +24,6 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
     @Override
     public Page<Place> findBySearchCondition(PlaceRequestDTO.SearchPlaceConditionInfo searchPlaceConditionInfo, Pageable pageable) {
-        log.error("Search place condition: {}", searchPlaceConditionInfo.getIsRatingASC());
 
         JPAQuery<Place> jpaQuery = queryFactory.selectFrom(place)
                 .where(nameEq(searchPlaceConditionInfo.getName()),
@@ -33,6 +32,7 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
         if(searchPlaceConditionInfo.getIsRatingASC() != null)
             jpaQuery = orderByRating(jpaQuery, searchPlaceConditionInfo.getIsRatingASC());
+
 
         if(searchPlaceConditionInfo.getIsDistanceASC() != null)
             jpaQuery = orderByDistance(jpaQuery, searchPlaceConditionInfo.getIsDistanceASC());
@@ -69,15 +69,15 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
     private JPAQuery<Place> orderByDistance(JPAQuery<Place> query, Boolean isDistanceASC) {
         if(isDistanceASC == null || isDistanceASC) {
-            return query.orderBy(place.distance.asc());
+            return query.orderBy(place.distance.asc(), place.placeId.asc());
         }
-        return query.orderBy(place.distance.desc());
+        return query.orderBy(place.distance.desc(), place.placeId.asc());
     }
 
     private JPAQuery<Place> orderByRating(JPAQuery<Place> query, Boolean isRatingASC) {
         if(isRatingASC == null || isRatingASC) {
-            return query.orderBy(place.rating.asc());
+            return query.orderBy(place.rating.asc(), place.placeId.asc());
         }
-        return query.orderBy(place.rating.desc());
+        return query.orderBy(place.rating.desc(), place.placeId.asc());
     }
 }
