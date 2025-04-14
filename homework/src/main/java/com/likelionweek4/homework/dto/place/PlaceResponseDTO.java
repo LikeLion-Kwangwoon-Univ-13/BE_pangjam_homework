@@ -2,8 +2,12 @@ package com.likelionweek4.homework.dto.place;
 
 import com.likelionweek4.homework.dto.review.ReviewResponseDTO;
 import com.likelionweek4.homework.entity.Place;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +48,13 @@ public class PlaceResponseDTO {
     @Getter
     @NoArgsConstructor
     public static class SearchPlaceResult {
-        List<PlaceInfo> placeInfos = new ArrayList<>();
-        public SearchPlaceResult(List<Place> places) {
+        List<PlaceInfo> placeInfosList = new ArrayList<>();
+        Page<PlaceInfo> placeInfosPaging;
+        public SearchPlaceResult(Page<Place> places, Pageable pageable) {
             places.forEach(place -> {
-                placeInfos.add(new PlaceInfo(place));
+                placeInfosList.add(new PlaceInfo(place));
             });
+            this.placeInfosPaging = new PageImpl<>(placeInfosList, pageable, places.getTotalElements());
         }
     }
 }

@@ -10,6 +10,9 @@ import com.likelionweek4.homework.validator.place.SearchPlaceConditionValidator;
 import com.likelionweek4.homework.validator.place.UpdatePlaceInfoValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +42,8 @@ public class PlaceService {
 
     public PlaceResponseDTO.SearchPlaceResult searchByCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
         SearchPlaceConditionValidator.validate(requestDTO);
-        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO));
+        Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize());
+        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO, pageable), pageable);
     }
 
     public PlaceResponseDTO.PlaceInfo searchById(PlaceRequestDTO.PlaceIdDTO requestDTO) {

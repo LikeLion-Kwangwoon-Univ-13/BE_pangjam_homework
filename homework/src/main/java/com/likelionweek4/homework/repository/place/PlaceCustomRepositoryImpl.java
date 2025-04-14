@@ -7,6 +7,9 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +23,7 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Place> findBySearchCondition(PlaceRequestDTO.SearchPlaceConditionInfo searchPlaceConditionInfo) {
+    public Page<Place> findBySearchCondition(PlaceRequestDTO.SearchPlaceConditionInfo searchPlaceConditionInfo, Pageable pageable) {
         log.error("Search place condition: {}", searchPlaceConditionInfo.getIsRatingASC());
 
         JPAQuery<Place> jpaQuery = queryFactory.selectFrom(place)
@@ -34,7 +37,13 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
         if(searchPlaceConditionInfo.getIsDistanceASC() != null)
             jpaQuery = orderByDistance(jpaQuery, searchPlaceConditionInfo.getIsDistanceASC());
 
-        return jpaQuery.fetch();
+        Long totalCount = jpaQuery.fetchCount();
+
+        jpaQuery.offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        List<Place> places = jpaQuery.fetch();
+        return new PageImpl<>(places, pageable, totalCount);
     }
 
     private BooleanExpression nameEq(String name) {
@@ -46,14 +55,14 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
     private BooleanExpression categoryEq(String category) {
         if(category != null) {
-            return place.name.contains(category);
+            return place.category.eq(category);
         }
         return null;
     }
 
     private BooleanExpression categoryGroupEq(String categoryGroup) {
         if(categoryGroup != null) {
-            return place.name.contains(categoryGroup);
+            return place.categoryGroup.eq(categoryGroup);
         }
         return null;
     }
