@@ -30,12 +30,17 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
                         categoryEq(searchPlaceConditionInfo.getCategory()),
                         categoryGroupEq(searchPlaceConditionInfo.getCategoryGroup()));
 
-        if(searchPlaceConditionInfo.getIsRatingASC() != null)
-            jpaQuery = orderByRating(jpaQuery, searchPlaceConditionInfo.getIsRatingASC());
+        if(searchPlaceConditionInfo.getIsRatingASC() == null && searchPlaceConditionInfo.getIsDistanceASC() == null) {
+            jpaQuery = orderByRating(jpaQuery, false);
+        }
+        else {
+            if (searchPlaceConditionInfo.getIsDistanceASC() != null)
+                jpaQuery = orderByDistance(jpaQuery, searchPlaceConditionInfo.getIsDistanceASC());
+            else
+                jpaQuery = orderByRating(jpaQuery, searchPlaceConditionInfo.getIsRatingASC());
+        }
 
 
-        if(searchPlaceConditionInfo.getIsDistanceASC() != null)
-            jpaQuery = orderByDistance(jpaQuery, searchPlaceConditionInfo.getIsDistanceASC());
 
         Long totalCount = jpaQuery.fetchCount();
 
