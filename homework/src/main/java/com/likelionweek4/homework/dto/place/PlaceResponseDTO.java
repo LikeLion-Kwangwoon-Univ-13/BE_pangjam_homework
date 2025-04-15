@@ -2,6 +2,7 @@ package com.likelionweek4.homework.dto.place;
 
 import com.likelionweek4.homework.dto.review.ReviewResponseDTO;
 import com.likelionweek4.homework.entity.Place;
+import com.likelionweek4.homework.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PlaceResponseDTO {
@@ -39,6 +41,8 @@ public class PlaceResponseDTO {
             this.categoryGroup = place.getCategoryGroup();
             this.category = place.getCategory();
             this.rating = place.getRating();
+
+            place.getReviews().sort(Comparator.comparingInt(Review::getRating).reversed());
             for(int i = 0; i<3; i++) {
                 this.reviews.add(new ReviewResponseDTO.ReviewInfo(place.getReviews().get(i)));
             }
