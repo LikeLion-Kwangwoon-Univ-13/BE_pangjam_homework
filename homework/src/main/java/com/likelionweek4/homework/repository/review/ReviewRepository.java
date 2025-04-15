@@ -15,7 +15,7 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 //    List<Review> findByPlace_placeId(Long placeId, Sort sort);
     Page<Review> findByPlace_placeId(Long placeId, Pageable pageable);
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.place.placeId = :placeId")
+    @Query("SELECT round(AVG(r.rating),2) FROM Review r WHERE r.place.placeId = :placeId")
     Double findAverageRatingByPlaceId(@Param("placeId") Long placeID);
 
 }

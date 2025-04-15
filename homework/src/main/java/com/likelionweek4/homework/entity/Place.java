@@ -52,6 +52,8 @@ public class Place {
 
     public void updateRating(double averageRating) {
         if(averageRating > 0.0) {
+//            double ratingResult = Math.round(averageRating * 100.0) / 100.0;
+//            String averageRatingString = String.format("%.2f", ratingResult);
             this.rating = averageRating;
             return;
         }
