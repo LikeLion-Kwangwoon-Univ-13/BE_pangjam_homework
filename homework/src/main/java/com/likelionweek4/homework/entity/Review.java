@@ -13,7 +13,7 @@ public class Review {
     private long reviewId;
 
     @ManyToOne
-    @JoinColumn(name = "placeId")
+    @JoinColumn(name = "place_id")
     private Place place;
 
     private int rating;

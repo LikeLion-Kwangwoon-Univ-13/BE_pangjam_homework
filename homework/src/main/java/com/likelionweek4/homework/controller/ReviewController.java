@@ -18,7 +18,7 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<ReviewResponseDTO.ReviewInfo> createReview(
             @RequestBody ReviewRequestDTO.CreateReviewInfo requestDTO) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(reviewService.create(requestDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.create(requestDTO));
     }
 
     @GetMapping("/{placeId}")
@@ -26,7 +26,7 @@ public class ReviewController {
             @PathVariable Long placeId,
             @ModelAttribute ReviewRequestDTO.SearchReviewsInfo requestDTO) {
         requestDTO.setPlaceId(placeId);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(reviewService.searchReviewByPlaceId(requestDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(reviewService.searchReviewByPlaceId(requestDTO));
     }
 
     @PutMapping("/{reviewId}")
@@ -34,13 +34,13 @@ public class ReviewController {
             @PathVariable Long reviewId,
             @RequestBody ReviewRequestDTO.UpdateReviewInfo requestDTO) {
         requestDTO.setReviewId(reviewId);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(reviewService.update(requestDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(reviewService.update(requestDTO));
     }
 
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<MessageResponseDTO.Message> deleteReview(
             @PathVariable Long reviewId) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(reviewService.deleteReview(new ReviewRequestDTO.DeleteReviewInfo(reviewId)));
+        return ResponseEntity.status(HttpStatus.OK).body(reviewService.deleteReview(new ReviewRequestDTO.DeleteReviewInfo(reviewId)));
     }
 
 }

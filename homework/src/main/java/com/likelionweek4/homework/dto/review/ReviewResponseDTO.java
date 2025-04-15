@@ -1,14 +1,10 @@
 package com.likelionweek4.homework.dto.review;
 
 import com.likelionweek4.homework.entity.Review;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReviewResponseDTO {
 
