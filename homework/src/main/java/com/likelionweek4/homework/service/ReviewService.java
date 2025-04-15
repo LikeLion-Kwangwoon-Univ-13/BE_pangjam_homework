@@ -47,19 +47,19 @@ public class ReviewService {
         Long placeId = requestDTO.getPlaceId();
         String sortBy = requestDTO.getSortBy();
         if(sortBy.equals("latest")) {
-            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"createdAt"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"createdAt"));
             return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         else if(sortBy.equals("oldest")) {
-            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.ASC,"createdAt"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.ASC,"createdAt"));
             return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         else if(sortBy.equals("lowRating")) {
-            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.ASC,"rating"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.ASC,"rating"));
             return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         else if(sortBy.equals("highRating")) {
-            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"rating"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"rating"));
             return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         throw new IllegalArgumentException("리뷰 조회 정렬 기준이 없습니다. (latest, oldest, lowRating, highRating)");
