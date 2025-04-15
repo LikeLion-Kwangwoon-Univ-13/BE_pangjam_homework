@@ -23,7 +23,7 @@ public class PlaceController {
     }
 
     @GetMapping()
-    public ResponseEntity<PlaceResponseDTO.SearchPlaceResult> searchPlaceInfo(
+    public ResponseEntity<PlaceResponseDTO.SearchPlaceResult> searchPlaceInfos(
             @ModelAttribute PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(PlaceService.searchByCondition(requestDTO));
     }

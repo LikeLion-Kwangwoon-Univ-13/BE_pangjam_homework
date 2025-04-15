@@ -39,9 +39,9 @@ public class PlaceResponseDTO {
             this.categoryGroup = place.getCategoryGroup();
             this.category = place.getCategory();
             this.rating = place.getRating();
-            place.getReviews().forEach(review -> {
-                this.reviews.add(new ReviewResponseDTO.ReviewInfo(review));
-            });
+            for(int i = 0; i<3; i++) {
+                this.reviews.add(new ReviewResponseDTO.ReviewInfo(place.getReviews().get(i)));
+            }
         }
     }
 
