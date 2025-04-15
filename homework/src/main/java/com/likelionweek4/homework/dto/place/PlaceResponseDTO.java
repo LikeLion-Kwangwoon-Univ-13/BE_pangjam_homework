@@ -42,7 +42,7 @@ public class PlaceResponseDTO {
             this.category = place.getCategory();
             this.rating = place.getRating();
 
-            place.getReviews().sort(Comparator.comparingInt(Review::getRating).reversed());
+            place.getReviews().sort(Comparator.comparing(Review::getCreatedAt).reversed());
             for(int i = 0; i<3; i++) {
                 this.reviews.add(new ReviewResponseDTO.ReviewInfo(place.getReviews().get(i)));
             }
