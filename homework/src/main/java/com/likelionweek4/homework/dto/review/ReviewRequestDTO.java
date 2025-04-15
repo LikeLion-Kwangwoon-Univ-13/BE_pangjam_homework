@@ -24,7 +24,9 @@ public class ReviewRequestDTO {
     @AllArgsConstructor
     public static class SearchReviewsInfo {
         private Long placeId;
-        private String sortBy;
+        private String sortBy = "latest";
+        private int page;
+        private int size;
     }
 
     @Getter

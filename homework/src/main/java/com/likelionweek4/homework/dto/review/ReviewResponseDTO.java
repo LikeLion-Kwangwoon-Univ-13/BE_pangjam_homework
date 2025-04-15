@@ -4,6 +4,7 @@ import com.likelionweek4.homework.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,9 +31,9 @@ public class ReviewResponseDTO {
     @Getter
     @NoArgsConstructor
     public static class SearchReviewsResult {
-        List<ReviewInfo> reviewInfos = new ArrayList<>();
-        public SearchReviewsResult(List<Review> reviews) {
-            reviews.forEach(review -> reviewInfos.add(new ReviewInfo(review)));
+        Page<ReviewInfo> reviewInfos;
+        public SearchReviewsResult(Page<Review> reviews) {
+            reviewInfos = reviews.map(ReviewInfo::new);
         }
     }
 

@@ -9,6 +9,9 @@ import com.likelionweek4.homework.repository.place.PlaceRepository;
 import com.likelionweek4.homework.repository.review.ReviewRepository;
 import com.likelionweek4.homework.validator.review.CreateReviewInfoValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -37,23 +40,27 @@ public class ReviewService {
     }
 
     public ReviewResponseDTO.SearchReviewsResult searchReviewByPlaceId(ReviewRequestDTO.SearchReviewsInfo requestDTO) {
-        Long placeId = requestDTO.getPlaceId();
-        String sortBy = requestDTO.getSortBy();
-        return new ReviewResponseDTO.SearchReviewsResult(getReviewList(sortBy, placeId));
+        return new ReviewResponseDTO.SearchReviewsResult(getReviewList(requestDTO));
     }
 
-    private List<Review> getReviewList(String sortBy, Long placeId) {
+    private Page<Review> getReviewList(ReviewRequestDTO.SearchReviewsInfo requestDTO) {
+        Long placeId = requestDTO.getPlaceId();
+        String sortBy = requestDTO.getSortBy();
         if(sortBy.equals("latest")) {
-            return reviewRepository.findByPlace_placeId(placeId, Sort.by(Sort.Direction.DESC, "createdAt"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"createdAt"));
+            return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         else if(sortBy.equals("oldest")) {
-            return reviewRepository.findByPlace_placeId(placeId, Sort.by(Sort.Direction.ASC, "createdAt"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.ASC,"createdAt"));
+            return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         else if(sortBy.equals("lowRating")) {
-            return reviewRepository.findByPlace_placeId(placeId, Sort.by(Sort.Direction.ASC, "rating"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.ASC,"rating"));
+            return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         else if(sortBy.equals("highRating")) {
-            return reviewRepository.findByPlace_placeId(placeId, Sort.by(Sort.Direction.DESC, "rating"));
+            Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"rating"));
+            return reviewRepository.findByPlace_placeId(placeId, pageable);
         }
         throw new IllegalArgumentException("리뷰 조회 정렬 기준이 없습니다. (latest, oldest, lowRating, highRating)");
     }

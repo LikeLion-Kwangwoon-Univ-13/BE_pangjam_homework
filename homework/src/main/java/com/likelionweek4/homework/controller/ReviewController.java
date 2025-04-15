@@ -24,8 +24,8 @@ public class ReviewController {
     @GetMapping("/{placeId}")
     public ResponseEntity<ReviewResponseDTO.SearchReviewsResult> searchReviews(
             @PathVariable Long placeId,
-            @RequestParam(defaultValue = "latest") String sortBy) {
-        ReviewRequestDTO.SearchReviewsInfo requestDTO = new ReviewRequestDTO.SearchReviewsInfo(placeId, sortBy);
+            @ModelAttribute ReviewRequestDTO.SearchReviewsInfo requestDTO) {
+        requestDTO.setPlaceId(placeId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(reviewService.searchReviewByPlaceId(requestDTO));
     }
 
