@@ -8,9 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Long>, PlaceCustomRepository {
-    List<Place> findByCategory(String category);
-    List<Place> findByNameContainingIgnoreCase(String name);
-    List<Place> findByCategoryGroup(String categoryGroup);
-    List<Place> findAllByOrderByDistanceAsc();
-    List<Place> findAllByOrderByDistanceDesc();
+
 }

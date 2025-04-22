@@ -1,6 +1,7 @@
 package com.likelionweek4.homework.entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -19,8 +20,11 @@ public class Place {
     private int distance;
     private double latitude;
     private double longitude;
-    private String categoryGroup;
     private String category;
+//    @Nullable
+//    @Column(length = 1024)
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
     private double rating = 0.0;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -28,26 +32,26 @@ public class Place {
 
     protected Place() {}
 
-    public Place(String name, String address, String phone, int distance, double latitude, double longitude, String categoryGroup, String category) {
+    public Place(String name, String address, String phone, int distance, double latitude, double longitude, String category, String imageUrl) {
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.distance = distance;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.categoryGroup = categoryGroup;
         this.category = category;
+        this.imageUrl = imageUrl;
     }
 
-    public void updateInfo(String name, String address, int distance, double latitude, double longitude, String category) {
+    public void updateInfo(String name, String address, int distance, double latitude, double longitude, String category, String imageUrl) {
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.distance = distance;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.categoryGroup = categoryGroup;
         this.category = category;
+        this.imageUrl = imageUrl;
     }
 
     public void updateRating(double averageRating) {

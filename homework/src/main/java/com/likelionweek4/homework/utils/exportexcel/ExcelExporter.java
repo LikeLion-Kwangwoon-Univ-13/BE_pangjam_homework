@@ -24,20 +24,18 @@ public class ExcelExporter {
                 Row row = sheet.getRow(i);
                 if (row == null) continue;
 
-                String phone = getCellValue(row.getCell(5));
-                String address = getCellValue(row.getCell(8));
-                String categoryGroup = getCellValue(row.getCell(2));
-                String[] categoryParts = getCellValue(row.getCell(3)).split(">");
-                String category = categoryParts[categoryParts.length - 1].trim();
-                int distance = parseInt(getCellValue(row.getCell(4)));
-                String name = getCellValue(row.getCell(6));
-                double longitude = parseDouble(getCellValue(row.getCell(9)));
-                double latitude = parseDouble(getCellValue(row.getCell(10)));
-                System.out.println("이름: " + name); // 이때 이미 깨지면 Excel 파싱 문제
-
+                String phone = getCellValue(row.getCell(3));
+                String address = getCellValue(row.getCell(5));
+                String[] categoryParts = getCellValue(row.getCell(1)).split("/");
+                String category = categoryParts[0].trim();
+                int distance = parseInt(getCellValue(row.getCell(2)));
+                String name = getCellValue(row.getCell(4));
+                double longitude = parseDouble(getCellValue(row.getCell(6)));
+                double latitude = parseDouble(getCellValue(row.getCell(7)));
+                String imageUrl = getCellValue(row.getCell(8));
 
                 Place place = new Place(
-                        name, address, phone, distance, latitude, longitude, categoryGroup, category
+                        name, address, phone, distance, latitude, longitude, category, imageUrl
                 );
 
                 placeRepository.save(place);

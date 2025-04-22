@@ -26,9 +26,9 @@ public class PlaceResponseDTO {
         private int distance;
         private double latitude;
         private double longitude;
-        private String categoryGroup;
         private String category;
         private double rating;
+        private String imageUrl;
         List<ReviewResponseDTO.ReviewInfo> reviews = new ArrayList<>();
         public PlaceInfo(Place place) {
             this.id = place.getPlaceId();
@@ -38,13 +38,20 @@ public class PlaceResponseDTO {
             this.distance = place.getDistance();
             this.latitude = place.getLatitude();
             this.longitude = place.getLongitude();
-            this.categoryGroup = place.getCategoryGroup();
             this.category = place.getCategory();
             this.rating = place.getRating();
+            this.imageUrl = place.getImageUrl();
 
             place.getReviews().sort(Comparator.comparing(Review::getCreatedAt).reversed());
-            for(int i = 0; i<3; i++) {
-                this.reviews.add(new ReviewResponseDTO.ReviewInfo(place.getReviews().get(i)));
+            if(place.getReviews().size() > 3) {
+                for (int i = 0; i < 3; i++) {
+                    this.reviews.add(new ReviewResponseDTO.ReviewInfo(place.getReviews().get(i)));
+                }
+            }
+            else {
+                for(Review review : place.getReviews()) {
+                    this.reviews.add(new ReviewResponseDTO.ReviewInfo(review));
+                }
             }
         }
     }

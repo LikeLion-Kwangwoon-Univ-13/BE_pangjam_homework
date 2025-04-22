@@ -27,8 +27,7 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
         JPAQuery<Place> jpaQuery = queryFactory.selectFrom(place)
                 .where(nameEq(searchPlaceConditionInfo.getName()),
-                        categoryEq(searchPlaceConditionInfo.getCategory()),
-                        categoryGroupEq(searchPlaceConditionInfo.getCategoryGroup()));
+                        categoryEq(searchPlaceConditionInfo.getCategory()));
 
         if(searchPlaceConditionInfo.getIsRatingASC() == null && searchPlaceConditionInfo.getIsDistanceASC() == null) {
             jpaQuery = orderByRating(jpaQuery, false);
@@ -61,13 +60,6 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
     private BooleanExpression categoryEq(String category) {
         if(category != null) {
             return place.category.eq(category);
-        }
-        return null;
-    }
-
-    private BooleanExpression categoryGroupEq(String categoryGroup) {
-        if(categoryGroup != null) {
-            return place.categoryGroup.eq(categoryGroup);
         }
         return null;
     }

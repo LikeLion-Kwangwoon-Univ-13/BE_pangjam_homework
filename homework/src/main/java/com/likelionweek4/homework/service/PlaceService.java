@@ -33,8 +33,8 @@ public class PlaceService {
                 requestDTO.getDistance(),
                 requestDTO.getLatitude(),
                 requestDTO.getLongitude(),
-                requestDTO.getCategoryGroup(),
-                requestDTO.getCategory()
+                requestDTO.getCategory(),
+                requestDTO.getImageUrl()
         );
         placeRepository.save(place);
         return new PlaceResponseDTO.PlaceInfo(place);
@@ -59,7 +59,8 @@ public class PlaceService {
                 requestDTO.getDistance(),
                 requestDTO.getLatitude(),
                 requestDTO.getLongitude(),
-                requestDTO.getCategory()
+                requestDTO.getCategory(),
+                requestDTO.getImageUrl()
         );
         return new PlaceResponseDTO.PlaceInfo(placeRepository.save(place));
     }
