@@ -20,14 +20,14 @@ public class ExcelExporter {
         try (Workbook workbook = WorkbookFactory.create(resource.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
 
-            for (int i = 10; i <= sheet.getLastRowNum(); i++) { // 10번째 줄부터
+            for (int i = 1; i < sheet.getLastRowNum(); i++) { // 10번째 줄부터
                 Row row = sheet.getRow(i);
                 if (row == null) continue;
 
                 String phone = getCellValue(row.getCell(3));
                 String address = getCellValue(row.getCell(5));
-                String[] categoryParts = getCellValue(row.getCell(1)).split("/");
-                String category = categoryParts[0].trim();
+                String category = getCellValue(row.getCell(1));
+//                String category = categoryParts[0].trim();
                 int distance = parseInt(getCellValue(row.getCell(2)));
                 String name = getCellValue(row.getCell(4));
                 double longitude = parseDouble(getCellValue(row.getCell(6)));
