@@ -37,7 +37,7 @@ public class PlaceReviewService {
     public Slice<PlaceReviewResponseDto> getPlaceReviews(long placeId, Pageable pageable)
     {
         Place place = placeRepository.findByPlaceId(placeId);
-        Slice<PlaceReview> placeReviews = placeReviewRepository.findByPlace_PlaceId(placeId);
+        Slice<PlaceReview> placeReviews = placeReviewRepository.findByPlace_PlaceId(placeId, pageable);
         return placeReviews.map(PlaceReviewConverter::toPlaceReviewResponseDto);
     }
 
