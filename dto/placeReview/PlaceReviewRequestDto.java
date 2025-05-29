@@ -2,12 +2,13 @@ package like_lion.pangjam.dto.placeReview;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor
 public class PlaceReviewRequestDto {
 
-    private int placeId;
+    private long placeId;
 
     private int rating;
     private String content;
