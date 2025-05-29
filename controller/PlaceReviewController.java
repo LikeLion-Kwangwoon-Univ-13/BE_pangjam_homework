@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,24 @@ public class PlaceReviewController {
     private final PlaceReviewService placeReviewService;
 
     //리뷰 생성
-    @PostMapping
-    public ResponseEntity<PlaceReviewResponseDto> createReview(@RequestBody PlaceReviewRequestDto reviewRequestDto) {
+    @PostMapping("/{placeId}")
+    public ResponseEntity<PlaceReviewResponseDto> createReview(
+            @PathVariable long placeId,
+            @RequestBody PlaceReviewRequestDto reviewRequestDto) {
+        reviewRequestDto.setPlaceId(placeId);
         return ResponseEntity.ok(placeReviewService.createReview(reviewRequestDto));
     }
 
     //리뷰 전체 조회
-    @GetMapping("/{placeId}")
-    public ResponseEntity<SliceResponseDto<PlaceReviewResponseDto>> getPlaceReviews(@PathVariable int placeId,
-                                                                               @RequestParam(defaultValue = "0") int page,
-                                                                               @RequestParam(defaultValue = "15") int size) {
-        Pageable pageable = PageRequest.of(page,size);
+    @GetMapping("/page/{page}")
+    public ResponseEntity<SliceResponseDto<PlaceReviewResponseDto>> getPlaceReviews(
+            @PathVariable int page,
+            @RequestParam long placeId,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, sortBy));
 
         Slice<PlaceReviewResponseDto> placeReviewSlice = placeReviewService.getPlaceReviews(placeId, pageable);
 
@@ -42,5 +50,4 @@ public class PlaceReviewController {
 
         return ResponseEntity.ok(response);
     }
-
 }
