@@ -2,6 +2,7 @@ package like_lion.pangjam.service;
 
 import like_lion.pangjam.domain.Place;
 import like_lion.pangjam.domain.PlaceReview;
+import like_lion.pangjam.dto.global.SliceResponseDto;
 import like_lion.pangjam.dto.place.PlaceResponseDto;
 import like_lion.pangjam.repository.PlaceRepository;
 import like_lion.pangjam.repository.PlaceReviewRepository;
@@ -20,10 +21,12 @@ public class PlaceService {
     private final PlaceReviewRepository placeReviewRepository;
 
     //place 리스트 조회
-    public Slice<PlaceResponseDto.PlaceInfo> getPlaces(String name, String category, Pageable pageable) {
+    public SliceResponseDto<PlaceResponseDto.PlaceInfo> searchPlacesInfos(
+            String name, String category, int page, int size
+    ) {
         Pageable sortedPageable = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
+                page,
+                size,
                 Sort.by(Sort.Order.asc("name"))
         );
 
@@ -33,7 +36,14 @@ public class PlaceService {
                 sortedPageable
         );
 
-        return places.map(PlaceConverter::toPlaceInfo);
+        Slice<PlaceResponseDto.PlaceInfo> mapped = places.map(PlaceConverter::toPlaceInfo);
+
+        return SliceResponseDto.of(
+                mapped.getContent(),
+                mapped.hasNext(),
+                mapped.getNumber(),
+                mapped.getSize()
+        );
     }
 
     //상세정보 조회
