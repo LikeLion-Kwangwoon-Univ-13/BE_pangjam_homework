@@ -16,15 +16,11 @@ public class PlaceController {
 
     private final PlaceService PlaceService;
 
-    @PostMapping
-    public ResponseEntity<PlaceResponseDTO.PlaceInfo> createPlace(
-            @RequestBody PlaceRequestDTO.CreatePlaceInfo requestDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(PlaceService.create(requestDTO));
-    }
-
-    @GetMapping()
+    @GetMapping("/page/{page}")
     public ResponseEntity<PlaceResponseDTO.SearchPlaceResult> searchPlaceInfos(
+            @PathVariable("page") int page,
             @ModelAttribute PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
+        requestDTO.setPage(page);
         return ResponseEntity.status(HttpStatus.OK).body(PlaceService.searchByCondition(requestDTO));
     }
 
@@ -34,17 +30,4 @@ public class PlaceController {
         return ResponseEntity.status(HttpStatus.OK).body(PlaceService.searchById(new PlaceRequestDTO.PlaceIdDTO(id)));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PlaceResponseDTO.PlaceInfo> updatePlace(
-            @PathVariable Long id,
-            @RequestBody PlaceRequestDTO.UpdatePlaceInfo requestDTO) {
-        requestDTO.setId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(PlaceService.update(requestDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO.Message> deletePlace(
-            @PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(PlaceService.delete(new PlaceRequestDTO.PlaceIdDTO(id)));
-    }
 }

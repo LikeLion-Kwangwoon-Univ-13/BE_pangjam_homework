@@ -27,7 +27,6 @@ public class ExcelExporter {
                 String phone = getCellValue(row.getCell(3));
                 String address = getCellValue(row.getCell(5));
                 String category = getCellValue(row.getCell(1));
-//                String category = categoryParts[0].trim();
                 int distance = parseInt(getCellValue(row.getCell(2)));
                 String name = getCellValue(row.getCell(4));
                 double longitude = parseDouble(getCellValue(row.getCell(6)));

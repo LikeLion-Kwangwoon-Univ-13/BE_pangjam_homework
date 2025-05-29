@@ -1,37 +1,27 @@
 package com.likelionweek4.homework.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Getter
 @Entity
+@Getter
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long reviewId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "place_id")
-    private Place place;
-
-    private int rating;
+    private int Rating;
     private String comment;
     private LocalDateTime createdAt;
 
-    protected Review() {}
-
-    public Review(Place place, int rating, String comment, LocalDateTime createdAt) {
-        this.place = place;
-        this.rating = rating;
+    public Review(int Rating, String comment) {
+        this.Rating = Rating;
         this.comment = comment;
-        this.createdAt = createdAt;
-    }
-
-    public void updateInfo(int rating, String comment, LocalDateTime createdAt) {
-        this.rating = rating;
-        this.comment = comment;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 }

@@ -1,36 +1,25 @@
 package com.likelionweek4.homework.dto.review;
 
-import com.likelionweek4.homework.entity.Review;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 public class ReviewResponseDTO {
 
-
-    @Getter
+    @Setter
     @NoArgsConstructor
-    public static class ReviewInfo {
-        private Long id;
+    public static class CreateReviewDTO {
+        private Long reviewId;
         private int rating;
         private String comment;
         private LocalDateTime createdAt;
-        public ReviewInfo(Review review) {
-            this.id = review.getReviewId();
-            this.rating = review.getRating();
-            this.comment = review.getComment();
-            this.createdAt = review.getCreatedAt();
+
+        public CreateReviewDTO(Long reviewId, int rating, String comment, LocalDateTime createdAt) {
+            this.reviewId = reviewId;
+            this.rating = rating;
+            this.comment = comment;
+            this.createdAt = createdAt;
         }
     }
-
-    @Getter
-    @NoArgsConstructor
-    public static class SearchReviewsResult {
-        Page<ReviewInfo> reviewInfos;
-        public SearchReviewsResult(Page<Review> reviews) {
-            reviewInfos = reviews.map(ReviewInfo::new);
-        }
-    }
-
 }
