@@ -12,6 +12,7 @@ public class PlaceRequestDTO {
         private String name;
         private String category;
         private int page;
+        private int size = 15;
     }
 
     @Getter

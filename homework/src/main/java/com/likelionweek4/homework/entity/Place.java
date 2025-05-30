@@ -20,14 +20,16 @@ public class Place {
     private double latitude;
     private double longitude;
     private String category;
+    private double averageRating;
 
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
-    private double rating = 0.0;
-
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaceReview> placeReviews = new ArrayList<>();
+
+    @OneToOne(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PlaceRating placeRating;
 
     protected Place() {}
 
@@ -40,13 +42,14 @@ public class Place {
         this.longitude = longitude;
         this.category = category;
         this.imageUrl = imageUrl;
+        this.averageRating = 0.0;
     }
 
-    public void updateRating(double averageRating) {
+    public void updateAverageRating(double averageRating) {
         if(averageRating > 0.0) {
-            this.rating = averageRating;
+            this.averageRating = Math.round(averageRating*100.0)/100.0;
             return;
         }
-        this.rating = 0.0;
+        this.averageRating = 0.0;
     }
 }

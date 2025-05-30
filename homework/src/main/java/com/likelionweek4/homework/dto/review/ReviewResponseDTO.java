@@ -1,9 +1,12 @@
 package com.likelionweek4.homework.dto.review;
 
+import com.likelionweek4.homework.entity.Review;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResponseDTO {
 
@@ -20,6 +23,16 @@ public class ReviewResponseDTO {
             this.rating = rating;
             this.comment = comment;
             this.createdAt = createdAt;
+        }
+    }
+
+    @Setter
+    @NoArgsConstructor
+    public static class SearchReviewDTO {
+        Page<CreateReviewDTO> searchedReviews;
+
+        public SearchReviewDTO(Page<Review> reviews) {
+            searchedReviews = reviews.map(review -> new CreateReviewDTO());
         }
     }
 }

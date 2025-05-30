@@ -29,17 +29,6 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
                 .where(nameEq(searchPlaceConditionInfo.getName()),
                         categoryEq(searchPlaceConditionInfo.getCategory()));
 
-        if(searchPlaceConditionInfo.getIsRatingASC() == null && searchPlaceConditionInfo.getIsDistanceASC() == null) {
-            jpaQuery = orderByRating(jpaQuery, false);
-        }
-        else {
-            if (searchPlaceConditionInfo.getIsDistanceASC() != null)
-                jpaQuery = orderByDistance(jpaQuery, searchPlaceConditionInfo.getIsDistanceASC());
-            else
-                jpaQuery = orderByRating(jpaQuery, searchPlaceConditionInfo.getIsRatingASC());
-        }
-
-
 
         Long totalCount = jpaQuery.fetchCount();
 
@@ -62,19 +51,5 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
             return place.category.eq(category);
         }
         return null;
-    }
-
-    private JPAQuery<Place> orderByDistance(JPAQuery<Place> query, Boolean isDistanceASC) {
-        if(isDistanceASC == null || isDistanceASC) {
-            return query.orderBy(place.distance.asc(), place.placeId.asc());
-        }
-        return query.orderBy(place.distance.desc(), place.placeId.asc());
-    }
-
-    private JPAQuery<Place> orderByRating(JPAQuery<Place> query, Boolean isRatingASC) {
-        if(isRatingASC == null || isRatingASC) {
-            return query.orderBy(place.rating.asc(), place.placeId.asc());
-        }
-        return query.orderBy(place.rating.desc(), place.placeId.asc());
     }
 }

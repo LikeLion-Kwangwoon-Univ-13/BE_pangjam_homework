@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/placeReviews")
+@RequestMapping("/api/placeReviews")
 @RequiredArgsConstructor
 public class PlaceReviewController {
     private final PlaceReviewService placeReviewService;

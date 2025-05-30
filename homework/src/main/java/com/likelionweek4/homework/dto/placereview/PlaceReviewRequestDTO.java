@@ -23,5 +23,6 @@ public class PlaceReviewRequestDTO {
         private Long placeId;
         private String sortBy = "latest";
         private int page;
+        private int size = 15;
     }
 }
