@@ -2,6 +2,7 @@ package com.likelionweek4.homework.dto.place;
 
 import com.likelionweek4.homework.dto.placereview.PlaceReviewResponseDTO;
 import com.likelionweek4.homework.entity.Place;
+import com.likelionweek4.homework.entity.PlaceRating;
 import com.likelionweek4.homework.entity.PlaceReview;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class PlaceResponseDTO {
         private double longitude;
         private String category;
         private double averageRating;
+        private int[] ratingsCount = {0,0,0,0,0};
         private int reviewCount;
         private String imageUrl;
         List<PlaceReviewResponseDTO.ReviewInfo> reviews = new ArrayList<>();
@@ -40,6 +42,14 @@ public class PlaceResponseDTO {
             this.longitude = place.getLongitude();
             this.category = place.getCategory();
             this.averageRating = place.getAverageRating();
+            PlaceRating placeRating = place.getPlaceRating();
+            if(placeRating != null) {
+                this.ratingsCount[0] = placeRating.getOne();
+                this.ratingsCount[1] = placeRating.getTwo();
+                this.ratingsCount[2] = placeRating.getThree();
+                this.ratingsCount[3] = placeRating.getFour();
+                this.ratingsCount[4] = placeRating.getFive();
+            }
             this.imageUrl = place.getImageUrl();
 
             place.getPlaceReviews().sort(Comparator.comparing(PlaceReview::getCreatedAt).reversed());
