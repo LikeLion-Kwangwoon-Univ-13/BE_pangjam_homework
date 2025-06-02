@@ -7,8 +7,10 @@ import com.likelionweek4.homework.repository.place.PlaceRepository;
 import com.likelionweek4.homework.validator.place.SearchPlaceConditionValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.Order;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class PlaceService {
     public PlaceResponseDTO.SearchPlaceResult searchByCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
         SearchPlaceConditionValidator.validate(requestDTO);
         Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize());
-        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO, pageable), pageable);
+        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO,pageable), pageable);
     }
 
     public PlaceResponseDTO.PlaceInfo searchById(PlaceRequestDTO.PlaceIdDTO requestDTO) {

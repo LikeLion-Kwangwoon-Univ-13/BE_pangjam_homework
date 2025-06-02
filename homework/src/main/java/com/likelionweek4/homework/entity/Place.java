@@ -21,6 +21,7 @@ public class Place {
     private double longitude;
     private String category;
     private double averageRating;
+    private int reviewCount;
 
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
@@ -43,6 +44,7 @@ public class Place {
         this.category = category;
         this.imageUrl = imageUrl;
         this.averageRating = 0.0;
+        this.reviewCount = 0;
     }
 
     public void updateAverageRating(double averageRating) {
@@ -51,5 +53,6 @@ public class Place {
             return;
         }
         this.averageRating = 0.0;
+        this.reviewCount++;
     }
 }

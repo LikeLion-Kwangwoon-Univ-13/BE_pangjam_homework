@@ -74,16 +74,20 @@ public class PlaceReviewService {
 
     private Page<PlaceReview> getReviewList(PlaceReviewRequestDTO.SearchReviewsInfo requestDTO) {
         Long placeId = requestDTO.getPlaceId();
-        String sortBy = requestDTO.getSortBy();
-        if(sortBy.equals("latest")) {
+        int sortBy = requestDTO.getSortBy();
+        if(sortBy==0) {
             Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"createdAt"));
             return placeReviewRepository.findByPlace_placeId(placeId, pageable);
         }
-        else if(sortBy.equals("rating")) {
+        else if(sortBy==1) {
             Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"rating"));
             return placeReviewRepository.findByPlace_placeId(placeId, pageable);
         }
-        throw new IllegalArgumentException("리뷰 조회 정렬 기준이 없습니다. (latest, oldest, lowRating, highRating)");
+        else if(sortBy==2) {
+            Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize(), Sort.by(Sort.Direction.DESC,"reviewCount"));
+            return placeReviewRepository.findByPlace_placeId(placeId, pageable);
+        }
+        throw new IllegalArgumentException("리뷰 조회 정렬 기준이 없습니다. (latest,rating)");
     }
 
     private Place getPlace(Long placeId) {

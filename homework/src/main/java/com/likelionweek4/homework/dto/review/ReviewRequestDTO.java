@@ -12,7 +12,6 @@ public class ReviewRequestDTO {
     @Setter
     @NoArgsConstructor
     public static class CreateReviewDTO {
-        private Long id;
         private int rating;
         private String comment;
     }

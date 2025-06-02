@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,8 @@ public class PlaceCustomRepositoryImpl implements PlaceCustomRepository {
 
         JPAQuery<Place> jpaQuery = queryFactory.selectFrom(place)
                 .where(nameEq(searchPlaceConditionInfo.getName()),
-                        categoryEq(searchPlaceConditionInfo.getCategory()));
+                        categoryEq(searchPlaceConditionInfo.getCategory()))
+                .orderBy(place.name.asc());
 
 
         Long totalCount = jpaQuery.fetchCount();

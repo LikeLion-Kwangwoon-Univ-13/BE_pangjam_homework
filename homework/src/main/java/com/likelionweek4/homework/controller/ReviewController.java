@@ -18,7 +18,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<ReviewResponseDTO.CreateReviewDTO> createReview(
-            @ModelAttribute ReviewRequestDTO.CreateReviewDTO requestDTO) {
+            @RequestBody ReviewRequestDTO.CreateReviewDTO requestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.createReview(requestDTO));
     }
 

@@ -42,6 +42,8 @@ public class PlaceResponseDTO {
             this.longitude = place.getLongitude();
             this.category = place.getCategory();
             this.averageRating = place.getAverageRating();
+            this.reviewCount = place.getReviewCount();
+
             PlaceRating placeRating = place.getPlaceRating();
             if(placeRating != null) {
                 this.ratingsCount[0] = placeRating.getOne();
@@ -50,6 +52,7 @@ public class PlaceResponseDTO {
                 this.ratingsCount[3] = placeRating.getFour();
                 this.ratingsCount[4] = placeRating.getFive();
             }
+
             this.imageUrl = place.getImageUrl();
 
             place.getPlaceReviews().sort(Comparator.comparing(PlaceReview::getCreatedAt).reversed());
@@ -63,7 +66,6 @@ public class PlaceResponseDTO {
                     this.reviews.add(new PlaceReviewResponseDTO.ReviewInfo(placeReview));
                 }
             }
-            this.reviewCount = place.getPlaceReviews().size();
         }
     }
 
