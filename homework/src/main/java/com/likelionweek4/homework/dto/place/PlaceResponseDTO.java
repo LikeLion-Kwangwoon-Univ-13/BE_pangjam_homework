@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlaceResponseDTO {
 
@@ -72,13 +73,13 @@ public class PlaceResponseDTO {
     @Getter
     @NoArgsConstructor
     public static class SearchPlaceResult {
-        List<PlaceInfo> placeInfosList = new ArrayList<>();
-        Page<PlaceInfo> placeInfosPaging;
-        public SearchPlaceResult(Page<Place> places, Pageable pageable) {
-            places.forEach(place -> {
-                placeInfosList.add(new PlaceInfo(place));
-            });
-            this.placeInfosPaging = new PageImpl<>(placeInfosList, pageable, places.getTotalElements());
+        List<PlaceInfo> placeInfosList;
+        Boolean last;
+        public SearchPlaceResult(Page<Place> places) {
+            this.placeInfosList = places.stream()
+                            .map(PlaceInfo::new)
+                            .collect(Collectors.toList());
+            this.last = places.isLast();
         }
     }
 }

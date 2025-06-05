@@ -25,7 +25,7 @@ public class PlaceService {
     public PlaceResponseDTO.SearchPlaceResult searchByCondition(PlaceRequestDTO.SearchPlaceConditionInfo requestDTO) {
         SearchPlaceConditionValidator.validate(requestDTO);
         Pageable pageable = PageRequest.of(requestDTO.getPage()-1, requestDTO.getSize());
-        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO,pageable), pageable);
+        return new PlaceResponseDTO.SearchPlaceResult(placeRepository.findBySearchCondition(requestDTO,pageable));
     }
 
     public PlaceResponseDTO.PlaceInfo searchById(PlaceRequestDTO.PlaceIdDTO requestDTO) {

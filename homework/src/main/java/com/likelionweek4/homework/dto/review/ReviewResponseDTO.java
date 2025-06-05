@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReviewResponseDTO {
 
@@ -33,10 +34,13 @@ public class ReviewResponseDTO {
     @Getter
     @NoArgsConstructor
     public static class SearchReviewDTO {
-        Page<CreateReviewDTO> searchedReviews;
-
+        List<CreateReviewDTO> searchedReviews;
+        Boolean last;
         public SearchReviewDTO(Page<Review> reviews) {
-            searchedReviews = reviews.map(CreateReviewDTO::new);
+            this.searchedReviews = reviews.stream()
+                    .map(CreateReviewDTO::new)
+                    .collect(Collectors.toList());
+            this.last = reviews.isLast();
         }
     }
 }

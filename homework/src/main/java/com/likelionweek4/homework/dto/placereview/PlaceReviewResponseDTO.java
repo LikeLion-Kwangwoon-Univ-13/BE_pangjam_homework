@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlaceReviewResponseDTO {
 
@@ -27,9 +29,13 @@ public class PlaceReviewResponseDTO {
     @Getter
     @NoArgsConstructor
     public static class SearchReviewsResult {
-        Page<ReviewInfo> reviewInfos;
+        List<ReviewInfo> reviewInfos;
+        Boolean last;
         public SearchReviewsResult(Page<PlaceReview> reviews) {
-            reviewInfos = reviews.map(ReviewInfo::new);
+            reviewInfos = reviews.stream()
+                    .map(ReviewInfo::new)
+                    .collect(Collectors.toList());
+            last = reviews.isLast();
         }
     }
 
