@@ -21,6 +21,6 @@ public class ReviewRequestDTO {
     @NoArgsConstructor
     public static class SearchReviewDTO {
         private int page;
-        private int size = 2;
+        private int size = 15;
     }
 }
