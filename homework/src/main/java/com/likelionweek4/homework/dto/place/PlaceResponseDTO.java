@@ -43,7 +43,7 @@ public class PlaceResponseDTO {
             this.longitude = place.getLongitude();
             this.category = place.getCategory();
             this.averageRating = place.getAverageRating();
-            this.reviewCount = place.getReviewCount();
+            this.reviewCount = place.getPlaceReviews().size();
 
             PlaceRating placeRating = place.getPlaceRating();
             if(placeRating != null) {
